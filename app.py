@@ -1,5 +1,6 @@
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 st.title("PDF RAG Chatbot")
 
@@ -15,5 +16,15 @@ if uploaded_file is not None:
     st.write("PDF loaded successfully!")
     st.write(f"Number of pages loaded: {len(documents)}")
 
-    st.subheader("First page preview:")
-    st.write(documents[0].page_content[:1000])
+    # Split text into chunks
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000,
+        chunk_overlap=200
+    )
+
+    chunks = text_splitter.split_documents(documents)
+
+    st.write(f"Total chunks created: {len(chunks)}")
+
+    st.subheader("Preview of first chunk")
+    st.write(chunks[0].page_content)
