@@ -45,7 +45,12 @@ def generate_answer(vectorstore, question):
     )
 
     prompt = f"""
-    Answer the question using the context below.
+    You are a helpful AI assistant that answers questions based only on the provided document.
+
+    Instructions:
+    - Use ONLY the context provided below.
+    - If the answer is not present in the context, say "I don't know based on the document."
+    - Keep the answer concise and clear.
 
     Context:
     {context}
